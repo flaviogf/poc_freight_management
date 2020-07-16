@@ -1,3 +1,4 @@
+using FreightManagement.Api.Application;
 using FreightManagement.Api.Infrastructure;
 using FreightManagement.Api.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -25,9 +26,28 @@ namespace FreightManagement.Api
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped<IStateRepository, DapperStateRepository>();
+
+            services.AddScoped<ICityRepository, DapperCityRepository>();
+
             services.AddScoped<IFreightRepository, DapperFreightRepository>();
 
+            services.AddScoped<CreateCountryFreight>();
+
+            services.AddScoped<CreateStateFreight>();
+
+            services.AddScoped<CreateCitiesFreight>();
+
+            services.AddScoped<ICreateFreightStrategyFactory, CreateFreightStrategyFactory>();
+
+            services.AddScoped<IFreightApplication, FreightApplication>();
+
             services.AddControllers();
+
+            services.AddSwaggerGen(it =>
+            {
+                it.EnableAnnotations();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,6 +56,14 @@ namespace FreightManagement.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(it =>
+            {
+                it.SwaggerEndpoint("/swagger/v1/swagger.json", "Freight Management");
+                it.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 

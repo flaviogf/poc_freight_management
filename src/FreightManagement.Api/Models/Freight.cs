@@ -8,6 +8,8 @@ namespace FreightManagement.Api.Models
 
         public string Name { get; set; }
 
+        public bool Active { get; set; } = true;
+
         public IEnumerable<FreightValue> Values { get; set; } = new List<FreightValue>();
     }
 }

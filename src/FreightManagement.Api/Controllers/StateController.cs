@@ -1,5 +1,6 @@
 ﻿using FreightManagement.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 
 namespace FreightManagement.Api.Controllers
@@ -16,6 +17,7 @@ namespace FreightManagement.Api.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(Tags = new string[] { "State" })]
         public async Task<IActionResult> Index()
         {
             var states = await _stateRepository.FindAll();

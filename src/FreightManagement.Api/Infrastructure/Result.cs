@@ -1,4 +1,6 @@
-﻿namespace FreightManagement.Api.Infrastructure
+﻿using System.Collections.Generic;
+
+namespace FreightManagement.Api.Infrastructure
 {
     public class Result
     {
@@ -32,6 +34,19 @@
         public static Result<T> Fail<T>(string message)
         {
             return new Result<T>(default, false, message);
+        }
+
+        public static Result Combine(IEnumerable<Result> results)
+        {
+            foreach (var it in results)
+            {
+                if (it.Failure)
+                {
+                    return Fail(it.Message);
+                }
+            }
+
+            return Ok();
         }
     }
 

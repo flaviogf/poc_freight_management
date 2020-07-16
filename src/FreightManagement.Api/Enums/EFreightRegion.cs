@@ -2,8 +2,8 @@
 {
     public enum EFreightRegion
     {
-        Country,
-        State,
-        City
+        Country = 1,
+        State = 2,
+        City = 3
     }
 }

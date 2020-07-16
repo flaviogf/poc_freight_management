@@ -37,5 +37,28 @@ namespace FreightManagement.Api.Repositories
                 return new List<State>();
             }
         }
+
+        public async Task<Maybe<State>> FindById(int id)
+        {
+            try
+            {
+                var procedure = "usp_Estado_Sel_IdEstado";
+
+                var param = new
+                {
+                    IdEstado = id
+                };
+
+                var state = await _uow.Connection.QuerySingleOrDefaultAsync<State>(procedure, param: param, transaction: _uow.Transaction, commandType: CommandType.StoredProcedure);
+
+                return state;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+
+                return null;
+            }
+        }
     }
 }
